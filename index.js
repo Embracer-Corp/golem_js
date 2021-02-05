@@ -118,5 +118,5 @@ io.on('connection', (socket) => {
 })
 
 http.listen(globalConfig.PORT, globalConfig.HOST, () => {
-  console.log(`listening on '${globalConfig.PORT}:${globalConfig.HOST}`)
+  console.log(`listening on '${globalConfig.HOST}:${globalConfig.PORT}`)
 })
