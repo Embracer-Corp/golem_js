@@ -19,8 +19,8 @@ socket.on('registered', (regNick) => {
   nickname = regNick
 })
 
-socket.on('start', () => {
-  StartGame(players)
+socket.on('start', (gameConfig) => {
+  game.start(gameConfig)
 })
 
 socket.on('disconnect', (reason) => {

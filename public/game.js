@@ -6,19 +6,16 @@ const GameState = {
 
 const game = {
   state: GameState.MENU,
-  // player: {x: 0, y: 0, realX: 0, realY: 0},
-  // map: {width:7, height:12, cellSize: 0, color: ['#20BB99', '#502090'], pattern: [
-  //   [0,0,0,0,0,0,0],
-  //   [0,1,1,0,1,1,0],
-  //   [1,0,0,1,0,0,1],
-  //   [1,0,0,0,0,0,1],
-  //   [0,1,0,0,0,1,0],
-  //   [0,0,1,0,1,0,0],
-  //   [0,0,0,1,0,0,0]
-  // ]},
-  start() {
-    // this.player.x = Math.floor(this.map.width/2); this.player.y = this.map.height
-    // this.player.realX = (this.player.x + 0.5) * this.map.cellSize; this.player.realY = this.player.y * this.map.cellSize
+  camera: {x:0, y:0},
+  tileRB: 20,
+  tileShift: 3,
+
+  players: {},
+  map: {width:0, height:0},  
+  
+  start(config) {
+    this.map = config.map
+    this.players = config.players 
     this.state = GameState.WORKS
   },
   logic(timePass) {
@@ -31,16 +28,31 @@ const game = {
     ctx.fillRect(0, 0, ctxWidth, ctxHeight)
     ctx.font = "12px Lucida Console"
     
-    // for(let j = 0; j < (settings.screen.orientation == ScreenOrientation.PORTRAIT ? this.map.height : this.map.width); j++) {
-    //   for(let i = 0; i < (settings.screen.orientation == ScreenOrientation.PORTRAIT? this.map.width : this.map.height); i++) {
-    //     if (j < 7) {
-    //       ctx.fillStyle = this.map.color[this.map.pattern[j][i]] + ((i+j)%2?'35':'40')
-    //     } else {
-    //       ctx.fillStyle = (i+j)%2?"#656565":"#707070"
-    //     }
-    //     ctx.fillRect(settings.screen.offset.x + i*this.map.cellSize, settings.screen.offset.y + j*this.map.cellSize, this.map.cellSize, this.map.cellSize)
-    //   }
-    // }
+    // this.tileShift += timePass/500
+    // if (this.tileShift > 5) this.tileShift = 0
+    
+    for(let j = 0; j < (settings.screen.orientation == ScreenOrientation.PORTRAIT ? this.map.height : this.map.width); j++) {
+      for(let i = 0; i < (settings.screen.orientation == ScreenOrientation.PORTRAIT? this.map.width : this.map.height); i++) {
+        ctx.fillStyle = "#FACE8D" //(i+j)%2?"#656565":"#707070"
+        ctx.strokeStyle = "#FACE8D"
+        // let x = Math.floor(ctxWidth/2 + (this.tileRB + this.tileShift)*3*(i+j/2)), y = Math.floor(ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)/2*j);
+        let x = Math.floor(ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*i), y = Math.floor(ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)*(i%2?j+0.5:j));
+        
+        ctx.beginPath()
+        ctx.moveTo(x - (this.tileRB), y)
+        ctx.lineTo(x - (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
+        ctx.lineTo(x + (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
+        ctx.lineTo(x + (this.tileRB), y)
+        ctx.lineTo(x + (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
+        ctx.lineTo(x - (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
+        ctx.lineTo(x - (this.tileRB), y)
+        ctx.stroke()
+
+        let text = i+","+j
+        ctx.fillText(text, x - ctx.measureText(text).width/2, y+4)
+        // ctx.fillRect(ctxWidth/2 + (this.tileRB + this.tileShift)*i, ctxHeight/2 + (this.tileRB + this.tileShift)*j, this.tileRB, this.tileRB)
+      }
+    }
 
     control.drawStick(ctx, ctxWidth, ctxHeight, timePass)
     if (settings.debug) {

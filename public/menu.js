@@ -4,8 +4,9 @@ const ScreenOrientation = { // iOS Safari doesn't support original enum
   UNKNOWN: 0
 }
 
+// Settings is changing before game start, control is depended on it. Settings may change in game by menu
 const settings = {
-  screen: {width: 0, height: 0, orientation: ScreenOrientation.UNKNOWN, offset: {x: 0, y: 0}},
+  screen: {width: 0, height: 0, orientation: ScreenOrientation.UNKNOWN/*, offset: {x: 0, y: 0}*/},
   keys: {left: 'a', right: 'd', up: 'w', down: 's'},
   debug: false
 }

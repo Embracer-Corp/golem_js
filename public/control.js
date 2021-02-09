@@ -1,3 +1,4 @@
+// Control is creating after game starts, and base on Settings?
 const control = {
   touch0: {x: 0, y: 0, hold: null}, stickAreaRadius: 100, stickSizeRadius: 30,
   mouse: {x: 0, y: 0, hold: null},
@@ -62,7 +63,7 @@ function touchend(ev) {
 
 addEventListener('touchstart', function(ev) {
   if (document.fullscreenElement == null) { canvas.webkitRequestFullscreen() }
-  else if (!settings.debug) { game.start() }
+  // else if (!settings.debug) { game.start() }
 
   if (ev.targetTouches.length > 3) { settings.debug = !settings.debug }
   if (settings.debug) { diagnostic.logTouch(ev) }
@@ -102,7 +103,7 @@ addEventListener('mousemove', onMouseUpdate, false)
 addEventListener('mouseenter', onMouseUpdate, false)
 
 addEventListener("mousedown", function(e) {
-  game.start()
+  // game.start()
   control.mouse.hold = {x: e.layerX, y: e.layerY }
 })
 addEventListener("mouseup", function() {
