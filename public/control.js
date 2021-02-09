@@ -94,7 +94,22 @@ addEventListener("touchcancel", touchend, false)
 
 
 // --- MOUSE ---
+const MouseButton = {
+  NONE:     0b00000,
+  LEFT:     0b00001,
+  RIGHT:    0b00010,
+  WHEEL:    0b00100,
+  FORWARD:  0b01000,
+  BACKWARD: 0b10000,
+}
 function onMouseUpdate(e) {
+  if (e.buttons & MouseButton.LEFT) {
+    if (game.state == GameState.WORKS)
+    {      
+      game.camera.x -= e.movementX/(game.tileRB+game.tileShift)/Math.sqrt(3/Math.sqrt(2))
+      game.camera.y -= (e.movementY - e.movementX/Math.sqrt(3))/Math.sqrt(3)/(game.tileShift+game.tileRB)
+    }
+  }
   control.mouse.x = e.x - canvas.offsetLeft
   control.mouse.y = e.y - canvas.offsetTop  
 }
@@ -103,11 +118,16 @@ addEventListener('mousemove', onMouseUpdate, false)
 addEventListener('mouseenter', onMouseUpdate, false)
 
 addEventListener("mousedown", function(e) {
-  // game.start()
-  control.mouse.hold = {x: e.layerX, y: e.layerY }
+  if (e.buttons & MouseButton.RIGHT) {
+    // game.start()
+    control.mouse.hold = {x: e.layerX, y: e.layerY }
+  }
 })
 addEventListener("mouseup", function() {
   control.mouse.hold = null
+})
+canvas.addEventListener("mousewheel", function(e) {
+  game.tileShift += e.wheelDelta>0?1:-1
 })
 
 
