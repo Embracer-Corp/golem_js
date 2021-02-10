@@ -9,7 +9,7 @@ const diagnostic = {
   fpsLog: [],
   fpsAvarage: 0,
   fpsWorst: 0,
-  logTouch(ev) {
+  logTouch: function(ev) {
     let ts = ev.changedTouches
     for (let i = 0; i < ts.length; i++) {
       if (ts[i].identifier > 4) continue
@@ -24,12 +24,13 @@ const diagnostic = {
       }
     }
   },
-  drawScreenInfo(ctx, ctxWidth, ctxHeight, timePass) {
+  drawScreenInfo: function(ctx, ctxWidth, ctxHeight, timePass) {
     ctx.font = "12px Lucida Console"
     ctx.fillStyle = "#000"
     let ori = ''
     for (let so in ScreenOrientation) { if (ScreenOrientation[so] == settings.screen.orientation) { ori = so; break } }
-    ctx.fillText(`[${ori}]: ${settings.screen.width}x${settings.screen.height}`, settings.screen.offset.x + 5, settings.screen.offset.y + 15)
+    //ctx.fillText(`[${ori}]: ${settings.screen.width}x${settings.screen.height}`, settings.screen.offset.x + 5, settings.screen.offset.y + 15)
+    ctx.fillText('['+ori+']: '+settings.screen.width+'x'+settings.screen.height, settings.screen.offset.x + 5, settings.screen.offset.y + 15)
 
     ctx.fillStyle = "#FF0000"
     ctx.fillRect(0, 0, 10, 10)
@@ -37,7 +38,7 @@ const diagnostic = {
     ctx.fillRect(settings.screen.width-10, 0, 10, 10)
     ctx.fillRect(settings.screen.width-10, settings.screen.height-10, 10, 10)
   },
-  drawFingerInfo(ctx, ctxWidth, ctxHeight, timePass) {
+  drawFingerInfo: function(ctx, ctxWidth, ctxHeight, timePass) {
     for(id in this.touches)
     {
       ctx.fillStyle = this.touches[id].color+"90"
@@ -55,7 +56,7 @@ const diagnostic = {
       }
     }
   },
-  drawFpsInfo(ctx, ctxWidth, ctxHeight, timePass) {
+  drawFpsInfo: function(ctx, ctxWidth, ctxHeight, timePass) {
     let curRatio = lps/timePass
     this.fpsLog.push({time: Date.now(), ratio: curRatio})
     let worstRatio = curRatio

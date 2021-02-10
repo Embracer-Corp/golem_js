@@ -21,7 +21,7 @@ const control = {
     }
     return res
   },
-  drawStick(ctx, ctxWidth, ctxHeight, timePass) {
+  drawStick: function(ctx, ctxWidth, ctxHeight, timePass) {
     ctx.strokeStyle = "#F0000050"
     if (control.mouse.hold != null) {
       ctx.fillStyle = "#F0000030"
@@ -62,7 +62,8 @@ function touchend(ev) {
 }
 
 addEventListener('touchstart', function(ev) {
-  if (document.fullscreenElement == null) { canvas.webkitRequestFullscreen() }
+  general.fullScreen()
+  //if (document.fullscreenElement == null) { canvas.webkitRequestFullscreen() }
   // else if (!settings.debug) { game.start() }
 
   if (ev.targetTouches.length > 3) { settings.debug = !settings.debug }
@@ -95,12 +96,18 @@ addEventListener("touchcancel", touchend, false)
 
 // --- MOUSE ---
 const MouseButton = {
-  NONE:     0b00000,
-  LEFT:     0b00001,
-  RIGHT:    0b00010,
-  WHEEL:    0b00100,
-  FORWARD:  0b01000,
-  BACKWARD: 0b10000,
+  // NONE:     0b00000,
+  // LEFT:     0b00001,
+  // RIGHT:    0b00010,
+  // WHEEL:    0b00100,
+  // FORWARD:  0b01000,
+  // BACKWARD: 0b10000,
+  NONE: 0,
+  LEFT: 1,
+  RIGHT: 2,
+  WHEEL: 4,
+  FORWARD: 8,
+  BACKWARD: 16,
 }
 function onMouseUpdate(e) {
   if (e.buttons & MouseButton.LEFT) {
@@ -123,8 +130,20 @@ addEventListener("mousedown", function(e) {
     control.mouse.hold = {x: e.layerX, y: e.layerY }
   }
 })
-addEventListener("mouseup", function() {
-  control.mouse.hold = null
+addEventListener("mouseup", function(e) {
+  general.fullScreen()
+
+  switch (e.button) {
+    case 0: //left
+      game.camera.x = Math.round(game.camera.x)
+      game.camera.y = Math.round(game.camera.y)
+      break;
+    case 1: //wheel
+      break;
+    case 2: //right
+      control.mouse.hold = null
+      break;
+  }
 })
 canvas.addEventListener("mousewheel", function(e) {
   game.tileShift += e.wheelDelta>0?1:-1

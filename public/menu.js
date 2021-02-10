@@ -12,7 +12,7 @@ const settings = {
 }
 
 const menu = {
-  logic(timePass) {
+  logic: function(timePass) {
     let dy = document.fullscreenElement == null ? 4 : 0 // without this bottom 4px page will get a lot of glitch 
     settings.screen.width = document.documentElement.clientWidth
     settings.screen.height = document.documentElement.clientHeight - dy
@@ -31,7 +31,7 @@ const menu = {
     //   settings.screen.offset.y = dy + Math.floor((settings.screen.height - dy - game.map.cellSize*game.map.width)/2)
     // }
   },
-  draw(ctx, ctxWidth, ctxHeight, timePass) {
+  draw: function(ctx, ctxWidth, ctxHeight, timePass) {
     ctxWidth = canvas.width = settings.screen.width
     ctxHeight = canvas.height = settings.screen.height
     
@@ -71,7 +71,7 @@ const menu = {
 }
 
 const pause = {
-  draw(ctx, ctxWidth, ctxHeight, timePass) {
+  draw: function(ctx, ctxWidth, ctxHeight, timePass) {
     ctx.fillStyle = "#00000090" // 00 -> 90
     ctx.fillRect(0, 0, ctxWidth, ctxHeight)
   }

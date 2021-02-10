@@ -4,7 +4,7 @@ var players = []
 var nickname = null
 
 const room = {
-  draw(ctx, ctxWidth, ctxHeight, timePass) {
+  draw: function(ctx, ctxWidth, ctxHeight, timePass) {
     ctxWidth = canvas.width = settings.screen.width
     ctxHeight = canvas.height = settings.screen.height
 

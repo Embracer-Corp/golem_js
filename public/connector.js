@@ -2,33 +2,33 @@ const socket = io(window.location.href);
 
 // --- EVENTS ---
 
-socket.on('players_info', (players) => {
+socket.on('players_info', function(players) {
   console.log(players, this.players)
   
   this.players = players
   //visual_update()
 })
 
-socket.on('chat', (message) => {
+socket.on('chat', function(message) {
   console.log('host->chat:', message)
-  document.getElementById("hotLog").innerHTML += "\r\n" + message
+  //document.getElementById("hotLog").innerHTML += "\r\n" + message
 })
 
-socket.on('registered', (regNick) => {
+socket.on('registered', function(regNick) {
   if (regNick == null) { alert("Wrong symbols in a nickname") } //something gonna wrong
   nickname = regNick
 })
 
-socket.on('start', (gameConfig) => {
+socket.on('start', function(gameConfig) {
   game.start(gameConfig)
 })
 
-socket.on('disconnect', (reason) => {
+socket.on('disconnect', function(reason) {
   console.log("FAIIIIL! " + reason)
 })
 
 document.onmousedown = function(e) {
-  if (e.toElement == canvas) {
+  if (e.target == canvas) {
     if (e.layerX > 20 && e.layerX < 20+150 && e.layerY > 20 && e.layerY < 20+50) {
       let item = exampleNames[Math.floor(Math.random() * exampleNames.length)];
       let nick = prompt("Enter your nick:", item)
