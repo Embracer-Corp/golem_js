@@ -112,13 +112,25 @@ const MouseButton = {
 function onMouseUpdate(e) {
   if (e.buttons & MouseButton.LEFT) {
     if (game.state == GameState.WORKS)
-    {      
-      game.camera.x -= e.movementX/(game.tileRB+game.tileShift)/Math.sqrt(3/Math.sqrt(2))
-      game.camera.y -= (e.movementY - e.movementX/Math.sqrt(3))/Math.sqrt(3)/(game.tileShift+game.tileRB)
+    {
+      game.camera.force = {
+        x: -e.movementX/(game.tileRB+game.tileShift)/Math.sqrt(3/Math.sqrt(2)),
+        y: -(e.movementY - e.movementX/Math.sqrt(3))/Math.sqrt(3)/(game.tileShift+game.tileRB),
+        time: 0
+      }
+      game.camera.x += game.camera.force.x
+      game.camera.y += game.camera.force.y
+      game.camera.test = Math.sqrt(game.camera.x*game.camera.x + game.camera.y*game.camera.y) 
     }
   }
   control.mouse.x = e.x - canvas.offsetLeft
-  control.mouse.y = e.y - canvas.offsetTop  
+  control.mouse.y = e.y - canvas.offsetTop
+  control.mouse.test = Math.round((control.mouse.x - canvas.width/2)/(game.tileRB + game.tileShift)/3*2)
+  //y// Math.round((control.mouse.y - canvas.height/2)/(game.tileRB + game.tileShift)/Math.sqrt(3))
+  // {
+  //   x: 0,//ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*(i-this.camera.x),
+  //   y: control.mouse.y - canvas.width/2// + (this.tileRB + this.tileShift)*Math.sqrt(3)*((i-this.camera.x)/2 + j-this.camera.y)
+  // } 
 }
 
 addEventListener('mousemove', onMouseUpdate, false)
@@ -131,12 +143,11 @@ addEventListener("mousedown", function(e) {
   }
 })
 addEventListener("mouseup", function(e) {
-  general.fullScreen()
+  //general.fullScreen()
 
   switch (e.button) {
     case 0: //left
-      game.camera.x = Math.round(game.camera.x)
-      game.camera.y = Math.round(game.camera.y)
+      game.camera.force.time = 1000.0
       break;
     case 1: //wheel
       break;
