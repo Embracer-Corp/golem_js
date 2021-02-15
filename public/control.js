@@ -120,45 +120,36 @@ function onMouseUpdate(e) {
       }
       game.camera.x += game.camera.force.x
       game.camera.y += game.camera.force.y
-      game.camera.test = Math.sqrt(game.camera.x*game.camera.x + game.camera.y*game.camera.y) 
     }
   }
   control.mouse.x = e.x - canvas.offsetLeft
   control.mouse.y = e.y - canvas.offsetTop
 
-  control.mouse.test = { tx: 0, ty: 0, x: 0, y: 0, q: null}
-  control.mouse.test.ty = (control.mouse.y - canvas.height/2)/(game.tileRB + game.tileShift)/Math.sqrt(3)*2
-  control.mouse.test.tx = (control.mouse.x - canvas.width/2)/(game.tileRB + game.tileShift) - control.mouse.test.ty/2  
-  control.mouse.test.x = Math.floor(control.mouse.test.tx)
-  control.mouse.test.y = Math.floor(control.mouse.test.ty)
-  control.mouse.test.q = Math.abs(control.mouse.test.tx-control.mouse.test.x + control.mouse.test.ty-control.mouse.test.y) > 1
-  if (exMod(control.mouse.test.x,3)==exMod(control.mouse.test.y,3)) {
-    if (control.mouse.test.q) {
-      control.mouse.test.x++
-      control.mouse.test.y++
+  control.mouse.hex = { tx: 0, ty: 0, x: 0, y: 0, or: null }
+  control.mouse.hex.ty = (control.mouse.y - canvas.height/2)/(game.tileRB + game.tileShift)/Math.sqrt(3)*2
+  control.mouse.hex.tx = (control.mouse.x - canvas.width/2)/(game.tileRB + game.tileShift) - control.mouse.hex.ty/2  
+  control.mouse.hex.x = Math.floor(control.mouse.hex.tx)
+  control.mouse.hex.y = Math.floor(control.mouse.hex.ty)
+  control.mouse.hex.or = Math.abs(control.mouse.hex.tx-control.mouse.hex.x + control.mouse.hex.ty-control.mouse.hex.y) > 1
+  if (exMod(control.mouse.hex.x,3)==exMod(control.mouse.hex.y,3)) {
+    if (control.mouse.hex.or) {
+      control.mouse.hex.x++
+      control.mouse.hex.y++
     }
-    control.mouse.test.y = (control.mouse.test.y - control.mouse.test.x)/3
-    control.mouse.test.x += control.mouse.test.y
-    control.mouse.test.q = control.mouse.test.q?0:3
-
-  } else if (exMod(control.mouse.test.x,3)==exMod(control.mouse.test.y+1,3)) {
-    control.mouse.test.y = (control.mouse.test.y + 1 - control.mouse.test.x) / 3
-    control.mouse.test.x += control.mouse.test.y
-    control.mouse.test.q = control.mouse.test.q?2:1
-  } else if (exMod(control.mouse.test.x,3)==exMod(control.mouse.test.y+2,3)) {
-    control.mouse.test.y = (control.mouse.test.y - control.mouse.test.x - 1) / 3
-    control.mouse.test.x += 1 + control.mouse.test.y
-    control.mouse.test.q = control.mouse.test.q?4:5
+    control.mouse.hex.y = (control.mouse.hex.y - control.mouse.hex.x)/3
+    control.mouse.hex.x += control.mouse.hex.y
+    control.mouse.hex.or = control.mouse.hex.or?0:3
+  } else if (exMod(control.mouse.hex.x,3)==exMod(control.mouse.hex.y+1,3)) {
+    control.mouse.hex.y = (control.mouse.hex.y + 1 - control.mouse.hex.x) / 3
+    control.mouse.hex.x += control.mouse.hex.y
+    control.mouse.hex.or = control.mouse.hex.or?2:1
+  } else if (exMod(control.mouse.hex.x,3)==exMod(control.mouse.hex.y+2,3)) {
+    control.mouse.hex.y = (control.mouse.hex.y - control.mouse.hex.x - 1) / 3
+    control.mouse.hex.x += 1 + control.mouse.hex.y
+    control.mouse.hex.or = control.mouse.hex.or?4:5
   }
-  // control.mouse.test.x = Math.floor(++control.mouse.test.x/2)
-  // control.mouse.test.y = Math.floor(++control.mouse.test.y/2)
-
-  //x// Math.round((control.mouse.x - canvas.width/2)/(game.tileRB + game.tileShift)/3*2)
-  //y// Math.round((control.mouse.y - canvas.height/2)/(game.tileRB + game.tileShift)/Math.sqrt(3))
-  // {
-  //   x: 0,//ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*(i-this.camera.x),
-  //   y: control.mouse.y - canvas.width/2// + (this.tileRB + this.tileShift)*Math.sqrt(3)*((i-this.camera.x)/2 + j-this.camera.y)
-  // } 
+  delete(control.mouse.hex.tx)
+  delete(control.mouse.hex.ty)
 }
 
 addEventListener('mousemove', onMouseUpdate, false)

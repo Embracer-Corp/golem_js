@@ -108,22 +108,22 @@ const game = {
 
     {
       //let cx = this.camera.x % 1, cy = this.camera.y % 1
-      let x = ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*(control.mouse.test.x/*-cx*/), y = ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)*((control.mouse.test.x/*-cx*/)/2 + control.mouse.test.y/*-cy*/);
+      let x = ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*(control.mouse.hex.x/*-cx*/), y = ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)*((control.mouse.hex.x/*-cx*/)/2 + control.mouse.hex.y/*-cy*/);
       // lines
       ctx.strokeStyle = "#94c"
       ctx.beginPath()
       ctx.moveTo(x - (this.tileRB), y)
-      if (control.mouse.test.q == 0) { ctx.lineTo(x, y) }
+      if (control.mouse.hex.or == 0) { ctx.lineTo(x, y) }
       ctx.lineTo(x - (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
-      if (control.mouse.test.q == 1) { ctx.lineTo(x, y) }
+      if (control.mouse.hex.or == 1) { ctx.lineTo(x, y) }
       ctx.lineTo(x + (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
-      if (control.mouse.test.q == 2) { ctx.lineTo(x, y) }
+      if (control.mouse.hex.or == 2) { ctx.lineTo(x, y) }
       ctx.lineTo(x + (this.tileRB), y)
-      if (control.mouse.test.q == 3) { ctx.lineTo(x, y) }
+      if (control.mouse.hex.or == 3) { ctx.lineTo(x, y) }
       ctx.lineTo(x + (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
-      if (control.mouse.test.q == 4) { ctx.lineTo(x, y) }
+      if (control.mouse.hex.or == 4) { ctx.lineTo(x, y) }
       ctx.lineTo(x - (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
-      if (control.mouse.test.q == 5) { ctx.lineTo(x, y) }
+      if (control.mouse.hex.or == 5) { ctx.lineTo(x, y) }
       ctx.lineTo(x - (this.tileRB), y)
       ctx.stroke()
     }
