@@ -8,6 +8,10 @@ var lps = 1000/100
 function lerp(v1, v2, w) {
   return v1 + w * (v2 - v1)
 }
+function exMod(num, delimer) {
+  let res = num%delimer
+  return res<0?res+=delimer:res
+}
 // ----- Vector -----
 function normalize(vector, scale) {
   var norm = Math.sqrt(vector.x * vector.x + vector.y * vector.y)

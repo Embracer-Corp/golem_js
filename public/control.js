@@ -125,7 +125,35 @@ function onMouseUpdate(e) {
   }
   control.mouse.x = e.x - canvas.offsetLeft
   control.mouse.y = e.y - canvas.offsetTop
-  control.mouse.test = Math.round((control.mouse.x - canvas.width/2)/(game.tileRB + game.tileShift)/3*2)
+
+  control.mouse.test = { tx: 0, ty: 0, x: 0, y: 0, q: null}
+  control.mouse.test.ty = (control.mouse.y - canvas.height/2)/(game.tileRB + game.tileShift)/Math.sqrt(3)*2
+  control.mouse.test.tx = (control.mouse.x - canvas.width/2)/(game.tileRB + game.tileShift) - control.mouse.test.ty/2  
+  control.mouse.test.x = Math.floor(control.mouse.test.tx)
+  control.mouse.test.y = Math.floor(control.mouse.test.ty)
+  control.mouse.test.q = Math.abs(control.mouse.test.tx-control.mouse.test.x + control.mouse.test.ty-control.mouse.test.y) > 1
+  if (exMod(control.mouse.test.x,3)==exMod(control.mouse.test.y,3)) {
+    if (control.mouse.test.q) {
+      control.mouse.test.x++
+      control.mouse.test.y++
+    }
+    control.mouse.test.y = (control.mouse.test.y - control.mouse.test.x)/3
+    control.mouse.test.x += control.mouse.test.y
+    control.mouse.test.q = control.mouse.test.q?0:3
+
+  } else if (exMod(control.mouse.test.x,3)==exMod(control.mouse.test.y+1,3)) {
+    control.mouse.test.y = (control.mouse.test.y + 1 - control.mouse.test.x) / 3
+    control.mouse.test.x += control.mouse.test.y
+    control.mouse.test.q = control.mouse.test.q?2:1
+  } else if (exMod(control.mouse.test.x,3)==exMod(control.mouse.test.y+2,3)) {
+    control.mouse.test.y = (control.mouse.test.y - control.mouse.test.x - 1) / 3
+    control.mouse.test.x += 1 + control.mouse.test.y
+    control.mouse.test.q = control.mouse.test.q?4:5
+  }
+  // control.mouse.test.x = Math.floor(++control.mouse.test.x/2)
+  // control.mouse.test.y = Math.floor(++control.mouse.test.y/2)
+
+  //x// Math.round((control.mouse.x - canvas.width/2)/(game.tileRB + game.tileShift)/3*2)
   //y// Math.round((control.mouse.y - canvas.height/2)/(game.tileRB + game.tileShift)/Math.sqrt(3))
   // {
   //   x: 0,//ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*(i-this.camera.x),
@@ -147,7 +175,7 @@ addEventListener("mouseup", function(e) {
 
   switch (e.button) {
     case 0: //left
-      game.camera.force.time = 1000.0
+      if (game.camera.force) game.camera.force.time = 1000.0
       break;
     case 1: //wheel
       break;
