@@ -54,7 +54,15 @@ const game = {
         let px = Math.floor(x), py =  Math.floor(y)
         //let x = Math.floor(ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*i), y = Math.floor(ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)*(i%2?j+0.5:j));
         
-        ctx.fillStyle = "#"+(i%2?"50":"66")+(j%2?"50":"66")+"66"
+        // ctx.fillStyle = "#"+(i%2?"50":"66")+(j%2?"50":"66")+"66"
+        // fill
+        if (exMod(i,3)==exMod(j+1,3)) {
+          ctx.fillStyle = rgbToHex(hsvToRgb(clr.h, clr.s * 0.85, clr.v))
+        } else if (exMod(i,3)==exMod(j+2,3)) {
+          ctx.fillStyle = rgbToHex(hsvToRgb(clr.h, clr.s * 1.15, clr.v * 0.95))
+        } else { //i%3==j%3
+          ctx.fillStyle = rgbToHex(hsvToRgb(clr.h, clr.s, clr.v))
+        }
         
         ctx.beginPath()
         ctx.moveTo(x - (this.tileRB + this.tileShift), y)
