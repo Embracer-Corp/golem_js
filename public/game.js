@@ -6,9 +6,9 @@ const GameState = {
 
 const game = {
   state: GameState.MENU,
-  camera: {x:7, y:4},
-  tileRB: 20,
-  tileShift: 10,
+  camera: {x:10, y:10},
+  tileRB: 50,
+  tileShift: 0,
 
   players: {},
   map: {width:0, height:0},  
@@ -46,6 +46,7 @@ const game = {
     //   this.camera.x = Math.floor(Math.random()*this.map.width)
     //   this.camera.y = Math.floor(Math.random()*this.map.height)
     // }
+    let clr = rgbToHsv(hexToRgb("#FACE8D"))
     
     for(let j = 0; j < (settings.screen.orientation == ScreenOrientation.PORTRAIT ? this.map.height : this.map.width); j++) {
       for(let i = 0; i < (settings.screen.orientation == ScreenOrientation.PORTRAIT? this.map.width : this.map.height); i++) {
@@ -54,35 +55,37 @@ const game = {
         //let x = Math.floor(ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*i), y = Math.floor(ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)*(i%2?j+0.5:j));
         
         ctx.fillStyle = "#"+(i%2?"50":"66")+(j%2?"50":"66")+"66"
-        ctx.beginPath()
-        ctx.moveTo(Math.floor(x - (this.tileRB + this.tileShift)    ), Math.floor(y                                                  ))
-        ctx.lineTo(Math.floor(x - ((this.tileRB + this.tileShift)/2)), Math.floor(y - (Math.sqrt(3)*(this.tileRB + this.tileShift)/2)))
-        ctx.lineTo(Math.floor(x + ((this.tileRB + this.tileShift)/2)), Math.floor(y - (Math.sqrt(3)*(this.tileRB + this.tileShift)/2)))
-        ctx.lineTo(Math.floor(x + (this.tileRB + this.tileShift)    ), Math.floor(y                                                  ))
-        ctx.lineTo(Math.floor(x + ((this.tileRB + this.tileShift)/2)), Math.floor(y + (Math.sqrt(3)*(this.tileRB + this.tileShift)/2)))
-        ctx.lineTo(Math.floor(x - ((this.tileRB + this.tileShift)/2)), Math.floor(y + (Math.sqrt(3)*(this.tileRB + this.tileShift)/2)))
-        ctx.lineTo(Math.floor(x - (this.tileRB + this.tileShift)    ), Math.floor(y                                                  ))
-        ctx.fill()
         
-        ctx.strokeStyle = "#FACE8D"
         ctx.beginPath()
-        ctx.moveTo(x - (this.tileRB), y)
-        ctx.lineTo(x - (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
-        ctx.lineTo(x + (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
-        ctx.lineTo(x + (this.tileRB), y)
-        ctx.lineTo(x + (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
-        ctx.lineTo(x - (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
-        ctx.lineTo(x - (this.tileRB), y)
-        ctx.stroke()
+        ctx.moveTo(x - (this.tileRB + this.tileShift), y)
+        ctx.lineTo(x - ((this.tileRB + this.tileShift)/2), y - (Math.sqrt(3)*(this.tileRB + this.tileShift)/2))
+        ctx.lineTo(x + ((this.tileRB + this.tileShift)/2), y - (Math.sqrt(3)*(this.tileRB + this.tileShift)/2))
+        ctx.lineTo(x + (this.tileRB + this.tileShift), y)
+        ctx.lineTo(x + ((this.tileRB + this.tileShift)/2), y + (Math.sqrt(3)*(this.tileRB + this.tileShift)/2))
+        ctx.lineTo(x - ((this.tileRB + this.tileShift)/2), y + (Math.sqrt(3)*(this.tileRB + this.tileShift)/2))
+        ctx.lineTo(x - (this.tileRB + this.tileShift), y)
+        ctx.fill()
 
-        let text = i+","+j
-        ctx.fillStyle = (i == this.camera.x && j == this.camera.y)?"#FF8822":"#FACE8D"
-        ctx.fillText(text, x - ctx.measureText(text).width/2, y+4)
-
+        // lines
+        // ctx.strokeStyle = "#94c"
+        // ctx.beginPath()
+        // ctx.moveTo(x - (this.tileRB), y)
+        // ctx.lineTo(x - (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
+        // ctx.lineTo(x + (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
+        // ctx.lineTo(x + (this.tileRB), y)
+        // ctx.lineTo(x + (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
+        // ctx.lineTo(x - (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
+        // ctx.lineTo(x - (this.tileRB), y)
+        // ctx.stroke()
+        
+        ctx.fillStyle = "#b63"
         if (i == this.camera.x && j == this.camera.y) {
-          ctx.beginPath(); ctx.arc(x, y, (this.tileRB + this.tileShift)*Math.sqrt(3)/2, 0, 2 * Math.PI, false); ctx.stroke()
-          ctx.beginPath(); ctx.arc(x, y, (this.tileRB + this.tileShift), 0, 2 * Math.PI, false); ctx.stroke()
+          ctx.fillStyle = "#72b"
+          // ctx.beginPath(); ctx.arc(x, y, (this.tileRB + this.tileShift)*Math.sqrt(3)/2, 0, 2 * Math.PI, false); ctx.stroke()
+          // ctx.beginPath(); ctx.arc(x, y, (this.tileRB + this.tileShift), 0, 2 * Math.PI, false); ctx.stroke()
         }
+        let text = i+","+j
+        ctx.fillText(text, x - ctx.measureText(text).width/2, y+4)
 
         ctx.fillStyle = "#000000FF"
         ctx.fillRect(ctxWidth/2-1,ctxHeight/2-1,2,2)
@@ -95,12 +98,32 @@ const game = {
       }
     }
 
-    
-    
-    ctx.strokeStyle = "#333"
-    for(let i = 0; i < 15; i++) {
-      ctx.beginPath(); ctx.arc(ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*(0-this.camera.x), ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)*((0-this.camera.x)/2 + 0-this.camera.y), (this.tileRB + this.tileShift)*i*Math.sqrt(3), 0, 2 * Math.PI, false); ctx.stroke()
+    {
+      //let cx = this.camera.x % 1, cy = this.camera.y % 1
+      let x = ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*(control.mouse.test.x/*-cx*/), y = ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)*((control.mouse.test.x/*-cx*/)/2 + control.mouse.test.y/*-cy*/);
+      // lines
+      ctx.strokeStyle = "#94c"
+      ctx.beginPath()
+      ctx.moveTo(x - (this.tileRB), y)
+      if (control.mouse.test.q == 0) { ctx.lineTo(x, y) }
+      ctx.lineTo(x - (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
+      if (control.mouse.test.q == 1) { ctx.lineTo(x, y) }
+      ctx.lineTo(x + (this.tileRB/2), y - (Math.sqrt(3)*this.tileRB/2))
+      if (control.mouse.test.q == 2) { ctx.lineTo(x, y) }
+      ctx.lineTo(x + (this.tileRB), y)
+      if (control.mouse.test.q == 3) { ctx.lineTo(x, y) }
+      ctx.lineTo(x + (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
+      if (control.mouse.test.q == 4) { ctx.lineTo(x, y) }
+      ctx.lineTo(x - (this.tileRB/2), y + (Math.sqrt(3)*this.tileRB/2))
+      if (control.mouse.test.q == 5) { ctx.lineTo(x, y) }
+      ctx.lineTo(x - (this.tileRB), y)
+      ctx.stroke()
     }
+    
+    // for(let i = 0; i < 15; i++) {
+    //   ctx.strokeStyle = i%2?"#442222":"#112811"
+    //   ctx.beginPath(); ctx.arc(ctxWidth/2 + (this.tileRB + this.tileShift)*3/2*(10-this.camera.x), ctxHeight/2 + (this.tileRB + this.tileShift)*Math.sqrt(3)*((10-this.camera.x)/2 + 10-this.camera.y), (this.tileRB + this.tileShift)*i*Math.sqrt(3), 0, 2 * Math.PI, false); ctx.stroke()
+    // }
     
     
     control.drawStick(ctx, ctxWidth, ctxHeight, timePass)
